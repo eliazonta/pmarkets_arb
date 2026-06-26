@@ -1,0 +1,45 @@
+Discovering negRisk multi-outcome events via Gamma…
+Fetching 74 live order books from the CLOB across 9 events…
+Pulling price history for 3 legs of “Norway vs. France”…
+Pulling price history for 3 legs of “Uruguay vs. Spain”…
+Pulling price history for 5 legs of “Fed Decision in July?”…
+Pulling price history for 3 legs of “Cabo Verde vs. Saudi Arabia”…
+Pulling price history for 3 legs of “Egypt vs. IR Iran”…
+Pulling price history for 3 legs of “Senegal vs. Iraq”…
+   negRisk maker edge — reward subsidy + inventory netting (where the taker arb dies, the maker is paid)   
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Event                       ┃ N ┃ Reward/day ┃ Reward edge ┃ med h ┃ med σ₁ₘ ┃ med τ* ┃ Resolution risk ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ Fed Decision in July?       │ 5 │      $0.33 │    16 bps/d │ 0.05¢ │   0.01¢ │    31m │    σ²=12,684→~0 │
+│ Uruguay vs. Spain           │ 3 │      $1.01 │    10 bps/d │ 0.50¢ │   0.06¢ │    72m │   σ²=570,125→~0 │
+│ Senegal vs. Iraq            │ 3 │      $0.96 │    10 bps/d │ 0.50¢ │   0.03¢ │   360m │   σ²=349,125→~0 │
+│ Cabo Verde vs. Saudi Arabia │ 3 │      $0.72 │     7 bps/d │ 0.50¢ │   0.05¢ │   120m │   σ²=664,525→~0 │
+│ Egypt vs. IR Iran           │ 3 │      $0.72 │     7 bps/d │ 0.50¢ │   0.04¢ │   180m │   σ²=658,325→~0 │
+│ Norway vs. France           │ 3 │      $0.38 │     4 bps/d │ 0.50¢ │   0.06¢ │    72m │   σ²=566,925→~0 │
+└─────────────────────────────┴───┴────────────┴─────────────┴───────┴─────────┴────────┴─────────────────┘
+
+Reward edge = daily LRP pool as bps of basket capital. τ* = breakeven fill time: quote fills faster than τ* ⇒ half-spread beats mid drift. Resolution risk: a balanced 
+basket across all N legs nets terminal payoff variance to ~0 (exactly one outcome pays $1).
+
+                        Fed Decision in July? — per-leg maker edge                        
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Leg              ┃   Mid ┃ h (½-spread) ┃   σ₁ₘ ┃ τ* (fill) ┃ Reward/day ┃ Reward edge ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ No change        │ 0.815 │        0.50¢ │ 0.09¢ │       31m │      $0.18 │    11 bps/d │
+│ 25 bps increase  │ 0.174 │        0.05¢ │ 0.05¢ │        1m │      $0.15 │    42 bps/d │
+│ 50+ bps decrease │ 0.005 │        0.05¢ │ 0.00¢ │       >1d │      $0.00 │     0 bps/d │
+│ 50+ bps increase │ 0.005 │        0.05¢ │ 0.00¢ │      120m │      $0.00 │     0 bps/d │
+│ 25 bps decrease  │ 0.013 │        0.05¢ │ 0.01¢ │       19m │      $0.00 │     0 bps/d │
+└──────────────────┴───────┴──────────────┴───────┴───────────┴────────────┴─────────────┘
+  basket capital $202.40 · total reward $0.33/day (16 bps/day) · resolution risk σ²=12,684 (independent legs) → 0.00 (balanced basket)
+                              Uruguay vs. Spain — per-leg maker edge                              
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Leg                      ┃   Mid ┃ h (½-spread) ┃   σ₁ₘ ┃ τ* (fill) ┃ Reward/day ┃ Reward edge ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ Uruguay                  │ 0.155 │        0.50¢ │ 0.06¢ │       72m │      $0.33 │    21 bps/d │
+│ Spain                    │ 0.575 │        0.50¢ │ 0.09¢ │       30m │      $0.29 │     5 bps/d │
+│ Draw (Uruguay vs. Spain) │ 0.265 │        0.50¢ │ 0.05¢ │       90m │      $0.39 │    15 bps/d │
+└──────────────────────────┴───────┴──────────────┴───────┴───────────┴────────────┴─────────────┘
+  basket capital $995.00 · total reward $1.01/day (10 bps/day) · resolution risk σ²=570,125 (independent legs) → 0.00 (balanced basket)
+
+Saved maker-edge chart to docs/maker_edge.png
